@@ -6,9 +6,9 @@ import { FaUser } from "react-icons/fa";
 import { useState } from "react";
 
 function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
   const navigate = useNavigate();
 
   async function login(username, email, password) {
@@ -34,7 +34,7 @@ function LoginForm() {
       }
       const resData = await res.text();
       alert(resData);
-      navigate("/add");
+      navigate("/loginsuccess");
     } catch (error) {
       alert("ログイン失敗");
     }
