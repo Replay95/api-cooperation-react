@@ -26,12 +26,14 @@ function SignupForm() {
         body: JSON.stringify(data),
       });
 
+      console.log(res.status);
+
       if (res.status === 409) {
         const resData = await res.text();
-        alert(resData);
+        return alert(resData);
       } else if (res.status === 500) {
         const resData = await res.text();
-        alert(resData);
+        return alert(resData);
       } else if (!res.ok) {
         throw new Error("アカウント作成に失敗しました");
       }
