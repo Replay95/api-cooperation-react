@@ -26,8 +26,6 @@ function SignupForm() {
         body: JSON.stringify(data),
       });
 
-      console.log(res.status);
-
       if (res.status === 409) {
         const resData = await res.text();
         return alert(resData);
