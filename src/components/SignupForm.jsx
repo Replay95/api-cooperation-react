@@ -1,5 +1,5 @@
 import "./LoginForm.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaLock } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { useState } from "react";
@@ -8,6 +8,7 @@ function SignupForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   async function signup(username, email, password) {
     const url = "http://localhost:5002/api/signup";
@@ -16,17 +17,31 @@ function SignupForm() {
       email: email,
       password: password,
     };
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    return res.json();
+      if (res.status === 409) {
+        const resData = await res.text();
+        return alert(resData);
+      } else if (res.status === 500) {
+        const resData = await res.text();
+        return alert(resData);
+      } else if (!res.ok) {
+        throw new Error("アカウント作成に失敗しました");
+      }
+      const resData = await res.text();
+      alert(resData);
+      navigate("/signupsuccess");
+    } catch (error) {
+      console.error("作成エラー:", error);
+    }
   }
-
   return (
     <>
       <div className="wrapper">
